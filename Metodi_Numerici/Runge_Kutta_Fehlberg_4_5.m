@@ -1,6 +1,6 @@
 
 
-function [U, t_vett] = Runge_Kutta_Fehlberg_5_4(M, y_0, t_0, T, h_iniz, toll, r)
+function [U, t_vett] = Runge_Kutta_Fehlberg_4_5(M, y_0, t_0, T, h_iniz, toll, r)
 
 % La presente funzione risolve un sistema autonomo di ODE della forma:
 % y'(t) = M \cdot y(t) , con M matrice 15x15 a coefficienti costanti.
@@ -15,7 +15,7 @@ function [U, t_vett] = Runge_Kutta_Fehlberg_5_4(M, y_0, t_0, T, h_iniz, toll, r)
 % passo di discretizzazione. 
 
 % Questo codice applica un metodo di Runge Kutta Fehlberg 4(5) esplicito 
-% addativo: i nodi della mesh ed il passo di discretizzazione sono 
+% adattivo: i nodi della mesh ed il passo di discretizzazione sono 
 % determinati ad ogni iterazione.
 % Il presente metodo ha ordine 5.
 
@@ -46,7 +46,7 @@ function [U, t_vett] = Runge_Kutta_Fehlberg_5_4(M, y_0, t_0, T, h_iniz, toll, r)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Definisco le costanti del metodo di Runge Kutta Fehlberg 4(5)
 
-    p = 5;  % ordine del metodo
+    p_min_piu_1 = 5;  % valore di 1 superiore all'ordine del metodo meno preciso
 
     % nodi di discretizzazione temporale
     c = [0, 1/4, 3/8, 12/13, 1, 1/2];
@@ -138,7 +138,7 @@ function [U, t_vett] = Runge_Kutta_Fehlberg_5_4(M, y_0, t_0, T, h_iniz, toll, r)
         
         % Coinvolgo la precisione di macchina eps per evitare di dividere
         % per zero in caso di errore nullo
-        q = (r * toll / (Err_stima + eps) ) ^ (1/p);  % coefficiente moltiplicativo
+        q = (r * toll / (Err_stima + eps) ) ^ (1/p_min_piu_1);  % coefficiente moltiplicativo
         h_new = h * q;
 
         

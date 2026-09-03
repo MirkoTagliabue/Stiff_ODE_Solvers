@@ -1,6 +1,6 @@
 
 
-function [U, t_vett] = Gauss_Legendre_6_5(M, y_0, t_0, T, h_iniz, toll, r)
+function [U, t_vett] = Gauss_Legendre_2_6(M, y_0, t_0, T, h_iniz, toll, r)
 
 % La presente funzione risolve un sistema autonomo di ODE della forma:
 % y'(t) = M \cdot y(t) , con M matrice 15x15 a coefficienti costanti.
@@ -15,7 +15,7 @@ function [U, t_vett] = Gauss_Legendre_6_5(M, y_0, t_0, T, h_iniz, toll, r)
 % passo di discretizzazione. 
 
 % Questo codice applica un metodo di Runge Kutta basato su interpolazione 
-% di Gauss-Legendre embedded addativo: i nodi della mesh ed il passo di 
+% di Gauss-Legendre embedded adattivo: i nodi della mesh ed il passo di 
 % discretizzazione sono determinati ad ogni iterazione.
 % Il presente metodo ha ordine 6, con p=2s, p=6, s=3. 
 % Il presente metodo numerico è A-stabile.
@@ -41,7 +41,7 @@ function [U, t_vett] = Gauss_Legendre_6_5(M, y_0, t_0, T, h_iniz, toll, r)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Definisco le costanti del metodo di Gauss-Legendre, p=2s, p=6, s=3
 
-    p = 6;  % ordine del metodo
+    p_min_piu_1 = 3;  % valore di 1 superiore all'ordine del metodo meno preciso
 
     c_1 = 1/2 - sqrt(15)/10;
     c_2 = 1/2;
@@ -135,7 +135,7 @@ function [U, t_vett] = Gauss_Legendre_6_5(M, y_0, t_0, T, h_iniz, toll, r)
         
         % Coinvolgo la precisione di macchina eps per evitare di dividere
         % per zero in caso di errore nullo
-        q = (r * toll / (Err_stima + eps) ) ^ (1/p);  % coefficiente moltiplicativo
+        q = (r * toll / (Err_stima + eps) ) ^ (1/p_min_piu_1);  % coefficiente moltiplicativo
         h_new = h * q;
 
 

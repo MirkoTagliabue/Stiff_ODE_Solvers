@@ -53,6 +53,9 @@ function U = BDF_2(M,y_0,t_vett)
     mesh_aux = [t_0, t_0+h];
     U_sol_iniz = Radau_IIA_5(M,y_0,mesh_aux);
 
+    % U(:,1) = y_0 , come è già noto
+    U(:,2) = U_sol_iniz(:,2);
+
     u_n_meno_2 = y_0;  % = U_sol_iniz(:,1);
     u_n_meno_1 = U_sol_iniz(:,2);
 
@@ -71,7 +74,8 @@ function U = BDF_2(M,y_0,t_vett)
     % Ax=b, con A matrice che non viene mai modificata all'interno del
     % ciclo, conviene utilizzare la fattorizzazione LU per ottimizzare il
     % costo computazionale. (Dal momento che la variabile U è già 
-    % utilizzata per altri scopi, chiamo V la matrice triagolare superiore)
+    % utilizzata per altri scopi, chiamo V la matrice triangolare 
+    % superiore)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Inizializzo la matrice A ed uso la fattorizazzione LU:

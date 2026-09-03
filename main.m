@@ -7,7 +7,7 @@ addpath('Procedure_Secondarie');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ELENCO DEI METODI IMPLEMETATI:
+% ELENCO DEI METODI IMPLEMENTATI:
 
 %   1) METODI CON MESH OMOGENEA:
 % 'Radau_IIA_5'
@@ -24,13 +24,13 @@ addpath('Procedure_Secondarie');
 
 
 %   3) METODI ADATTIVI:
-% 'Gauss_Legendre_6_5'
-% 'Runge_Kutta_Fehlberg_5_4'
+% 'Gauss_Legendre_2_6'
+% 'Runge_Kutta_Fehlberg_4_5'
 
 
 
             % SELEZIONARE IL METODO DA USARE:
-metodo = 'Gauss_Legendre_6_5';
+metodo = 'Gauss_Legendre_2_6';
 
 % NB: è possibile inoltre cambiare alcuni parametri (come h, T, passo_N,
 % toll, ecc) nel menù sotto
@@ -40,7 +40,7 @@ metodo = 'Gauss_Legendre_6_5';
 % PARAMETRI INIZIALI:
 
 t_0 = 0;
-T = 10000;
+T = 1000;
 
 
 % parametri per una mesh omogenea:
@@ -57,7 +57,7 @@ passo_3 = 10;        % passo tra 100 e T
 
 % parametri per una mesh adattiva:
 h_iniz = 0.001;  % h iniziale "di prova"
-toll = 1e-3;     % tolleranza sotto la quale si vuole l'errore assoluto
+toll = 1e-3;     % stima dell'errore assoluto locale
 r = 1/2;         % coefficiente cautelativo per il calcolo del nuovo passo h
 
 
@@ -112,13 +112,13 @@ switch metodo
         U = Crank_Nicolson_mesh_non_omogenea(M,y_0,t_vett);    
 
 
-            % Metodi su mesh non omogenea:
+            % Metodi su mesh adattiva:
 
-    case 'Gauss_Legendre_6_5'
-        [U, t_vett] = Gauss_Legendre_6_5(M, y_0, t_0, T, h_iniz, toll, r);
+    case 'Gauss_Legendre_2_6'
+        [U, t_vett] = Gauss_Legendre_2_6(M, y_0, t_0, T, h_iniz, toll, r);
 
-    case 'Runge_Kutta_Fehlberg_5_4'
-        [U, t_vett] = Runge_Kutta_Fehlberg_5_4(M, y_0, t_0, T, h_iniz, toll, r);
+    case 'Runge_Kutta_Fehlberg_4_5'
+        [U, t_vett] = Runge_Kutta_Fehlberg_4_5(M, y_0, t_0, T, h_iniz, toll, r);
 
 
             % Default case
@@ -135,7 +135,7 @@ end % end switch-case
 % *************************************************************************
 % DETERMINO LA SOLUZIONE ESATTA E L'ERRORE:
 
-% Estrapolo tre fuzioni soluzione dalla matrice soluzione: u_1, u_2, u_15
+% Estrapolo tre funzioni soluzione dalla matrice soluzione: u_1, u_2, u_15
 u_1 = U(1,:);
 u_2 = U(2,:);
 u_15 = U(15,:);
@@ -191,7 +191,7 @@ end
 
 
 % Se il metodo è adattivo stampo anche il numero di nodi ed il passo minimo e massimo:
-if strcmp(metodo, 'Gauss_Legendre_6_5') || strcmp(metodo, 'Runge_Kutta_Fehlberg_5_4')
+if strcmp(metodo, 'Gauss_Legendre_2_6') || strcmp(metodo, 'Runge_Kutta_Fehlberg_4_5')
 
     fprintf("Il numero di nodi della mesh e': \n\t %d \n", numel(t_vett));
     
@@ -244,10 +244,15 @@ str_err_ass_1 = sprintf('Err Ass y_1 = %.3e', Err_ass_1);
 str_err_rel_1 = sprintf('Err Rel y_1 = %.3e', Err_rel_1);
 figure(1), plot(t_vett, u_1, 'r*-'), hold on,
     % Oppure 'r*-' per enfatizzare i nodi degli adattivi o mesh non omogenee
-    % con l'accortezza in questo caso di usare xlim([t_0,T])
 plot(t_vett, y_1, 'b-'), legend('approssimata', 'esatta'), 
-title('y_1(t)'), xlabel('t'), ylabel('y(t)'), xlim([t_0, 50]), 
-subtitle({str_err_ass_1, str_err_rel_1});
+xlabel('t'), ylabel('y(t)'), xlim([t_0, 50]), 
+title(sprintf('y_1(t)\n%s\n%s', str_err_ass_1, str_err_rel_1));
+
+% Per matlab (e non Octave) invece si può usare anche (più elegante):
+% title('y_1(t)')
+% subtitle({str_err_ass_1, str_err_rel_1});
+
+
 
 
 
@@ -256,8 +261,8 @@ str_err_ass_2 = sprintf('Err Ass y_2 = %.3e', Err_ass_2);
 str_err_rel_2 = sprintf('Err Rel y_2 = %.3e', Err_rel_2);
 figure(2), plot(t_vett, u_2, 'r-'), hold on,
 plot(t_vett, y_2, 'b-'), legend('approssimata', 'esatta'),
-title('y_2(t)'), xlabel('t'), ylabel('y(t)'), xlim([t_0, 5]), 
-subtitle({str_err_ass_2, str_err_rel_2});
+xlabel('t'), ylabel('y(t)'), xlim([t_0, 5]), 
+title(sprintf('y_2(t)\n%s\n%s', str_err_ass_2, str_err_rel_2));
 
 
 
@@ -266,7 +271,7 @@ str_err_ass_15 = sprintf('Err Ass y_{15} = %.3e', Err_ass_15);
 str_err_rel_15 = sprintf('Err Rel y_{15} = %.3e', Err_rel_15);
 figure(3), plot(t_vett, u_15, 'r-'), hold on,
 plot(t_vett, y_15, 'b-'), legend('approssimata', 'esatta'),
-title('y_{15}(t)'), xlabel('t'), ylabel('y(t)'), xlim([t_0, 4])
-subtitle({str_err_ass_15, str_err_rel_15});
+xlabel('t'), ylabel('y(t)'), xlim([t_0, 4])
+title(sprintf('y_{15}(t)\n%s\n%s', str_err_ass_15, str_err_rel_15));
 
 

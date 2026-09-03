@@ -56,7 +56,7 @@ function U = Runge_Kutta_4(M,y_0,t_vett)
     A(4,3) = 1;
     
 
-    % Pesi per la soluzione (Ordine 5 - per avanzare temporalmente)
+    % Pesi per la combinazione lineare:
     b = [1/6, 1/3, 1/3, 1/6];
     
 
@@ -75,7 +75,7 @@ function U = Runge_Kutta_4(M,y_0,t_vett)
 
     for n=2:numel(t_vett)
 
-        t = t_vett(end);    % Qui t=t_{n-1}, lo uso per ricavare 
+        t = t_vett(n-1);    % Qui t=t_{n-1}, lo uso per ricavare 
                             % u_{n}, nuovo nodo
         
         

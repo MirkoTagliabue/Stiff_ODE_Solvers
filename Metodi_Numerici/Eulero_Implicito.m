@@ -51,7 +51,7 @@ function U = Eulero_Implicito(M,y_0,t_vett)
     % il costo computazionale dal momento che la matrice A non variano nel 
     % ciclo sottostante.
     % (dal momento che la variabile U è già utilizzata per altri scopi, 
-    % in seguito chiamo V la matrice triagolare superiore)
+    % in seguito chiamo V la matrice triangolare superiore)
 
     A = I_15 - h*M;
 

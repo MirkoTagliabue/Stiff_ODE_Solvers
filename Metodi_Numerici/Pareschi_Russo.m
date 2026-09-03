@@ -81,7 +81,7 @@ function U = Pareschi_Russo(M,y_0,t_vett)
     % il costo computazionale dal momento che le matrici A_1 ed A_2
     % non variano nel ciclo sottostante.
     % (dal momento che la variabile U è già utilizzata per altri scopi, 
-    % in seguito chiamo V la matrice triagolare superiore)
+    % in seguito chiamo V la matrice triangolare superiore)
 
     A_1 = I_15 - h*a_11*M;
     [L_1,V_1,P_1] = lu(A_1);

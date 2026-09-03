@@ -89,7 +89,7 @@ function U = Radau_IIA_5(M,y_0,t_vett)
     % Per una maggiore ottimizzazione del costo temporale, utilizzo la
     % fattorizzazione LU: 
     % (dal momento che la variabile U è già utilizzata per altri scopi, 
-    % chiamo V la matrice triagolare superiore)
+    % chiamo V la matrice triangolare superiore)
 
     [L,V,P] = lu(A);
 
