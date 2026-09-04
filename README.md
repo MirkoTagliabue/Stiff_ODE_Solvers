@@ -443,7 +443,7 @@ La trattazione, l'analisi ed i risultati relativi a questi metodi vengono discus
     oppure la tolleranza `toll` del metodo adattivo.
 4. Eseguire `main.m`.
 
-Lo script genererà i dati iniziali, calcolerà la soluzione numerica e quella esatta, stamperà gli errori e produrrà i grafici delle componenti $y_1$,  
+Lo script genererà i dati iniziali, calcolerà la soluzione numerica e quella esatta, stamperà gli errori e produrrà i grafici delle componenti $y_1$, 
 $y_2$ e $y_{15}$.
 
 
