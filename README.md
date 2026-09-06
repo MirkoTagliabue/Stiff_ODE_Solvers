@@ -36,10 +36,10 @@ $$
 e dove
 
 $$
-\underline{y_0} = \[ 1, 1, 1, ..., 1, 10 \]^T 
+\underline{y_0} = [ 1, 1, 1, ..., 1, 10 ]^T 
 $$
 
-da risolvere per $t \in \[ t_0 , T \]$,  con $T$ fissato e scelto nell'intervallo $\[ 10 , 10000 \]$.  
+da risolvere per $t \in [ t_0 , T ]$,  con $T$ fissato e scelto nell'intervallo $[ 10 , 10000 ]$.  
 Per calcolare numericamente la soluzione, l'intervallo temporale $[t_0,T]$ viene suddiviso in una successione di nodi:  
 
 $$
@@ -53,7 +53,7 @@ tutti i nodi della mesh, la mesh viene detta *uniforme* oppure *omogenea*.
 
 ## Analisi teorica a priori
 
-$M$ ha $15$ autovalori distinti ed ha spettro: $\sigma (M) = \\{ −1,−4,…,−225 \\} $, in particolare, tutti e $15$ i suoi autovalori sono reali negativi e 
+$M$ ha $15$ autovalori distinti ed ha spettro: $\sigma (M) = \\{ −1,−4,…,−225 \\}$, in particolare, tutti e $15$ i suoi autovalori sono reali negativi e 
 pertanto il sistema di ODE in esame descrive una dinamica asintoticamente stabile per il teorema di Lyapunov.  
 Tuttavia, la scrittura della soluzione come combinazione lineare di termini della forma $e^{\lambda_i \cdot (t- t_0) } \cdot v_i$ mostra l'esistenza di transitori veloci e transitori lenti, in altre parole, il problema forza l'utilizzo di tantissimi nodi negli istanti iniziali, mentre negli istanti finali sono necessari
 molti meno nodi per approssimare efficacemente la soluzione. Conseguenza diretta di ciò è che utilizzare una mesh omogenea potrebbe non essere la scelta più 
@@ -209,12 +209,12 @@ Seguono inoltre le tabelle degli errori commessi:
 Come descritto sopra, i problemi stiff forzano ad utilizzare un passo molto più piccolo del necessario per approssimare la soluzione, tuttavia, un passo così
 piccolo è necessario per descrivere efficacemente la soluzione unicamente in un intervallo molto ristretto di valori, altrove si può tranquillamente utilizzare un
 passo molto più ampio. È qui che le mesh omogenee mostrano i loro limiti e si è di conseguenza deciso di implementare anche dei metodi su una mesh non omogenea.
-L'idea implementativa è stata quella di discretizzare con un passo $h_1$ l’intervallo $\[t_0 , 20\]$, con un passo $h_2$ l’intervallo $\[20,100\]$, e con un 
-passo $h_3$ l’intervallo $\[100,𝑇\]$, con l’accortezza di scegliere $h_1$ estremamente piccolo ed $h_3$ estremamente grande.  
+L'idea implementativa è stata quella di discretizzare con un passo $h_1$ l’intervallo $[t_0 , 20]$, con un passo $h_2$ l’intervallo $[20,100]$, e con un 
+passo $h_3$ l’intervallo $[100,𝑇]$, con l’accortezza di scegliere $h_1$ estremamente piccolo ed $h_3$ estremamente grande.  
 L'idea è in questo caso vincente. Il prezzo da pagare è che essendo la mesh non omogenea non è più possibile utilizzare la fattorizzazione $LU$ per abbattere il
 costo computazionale, tuttavia, il costo computazionale da pagare per rinunciare alla fattorizzazione $LU$ è abbondantemente compensato dall’abbattere 
 drasticamente il numero di sistemi lineari da risolvere.  
-Il [metodo di Gauss-Legendre](./Metodi_Numerici/Gauss_Legendre_2_6.m) è anch'esso un metodo di Runge-Kutta basato su un metodo di collocazione, solo che ora viene utilizzata un'interpolazione di 
+Il [metodo di Gauss-Legendre](./Metodi_Numerici/Gauss_Legendre_6_mesh_non_omogenea.m) è anch'esso un metodo di Runge-Kutta basato su un metodo di collocazione, solo che ora viene utilizzata un'interpolazione di 
 Gauss-Legendre. Il metodo implementato è un metodo di Gauss-Legendre a 3 stadi, e dunque di ordine 6. A differenza del metodo di Radau IIA, il metodo di 
 Gauss-Legendre è solo A-stabile, e non L-stabile.
 
